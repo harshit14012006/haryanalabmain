@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+        .container {
+            border: 2px solid #450a0a;
+            width: 210mm; /* A4 width */
+            height: 293mm; /* A4 height */
+            padding: 2mm;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .header-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10mm;
+        }
+        .letter-body {
+            min-height: 200mm; /* Space for letter content */
+            margin-top: -5mm;
+            border: 1px dashed #ccc; /* Optional: dashed border for visibility */
+        }
+        .signature {
+            position: absolute;
+            bottom: 32mm;
+            right: 20mm;
+            text-align: right;
+        }
+        .signature img {
+            width: 100px;
+            height: auto;
+        }
+        .footer-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: -50mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <!-- Header Image Section -->
+        <img src="haryanalabheader.jpg" alt="Haryana Laboratory Header" class="header-image" />
+
+        <!-- Empty Letter Body -->
+        <div class="letter-body">
+            <!-- This area is intentionally left blank for letter content -->
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature">
+            <img id="signatureImg" src="" alt="Signature" />
+        </div>
+        <!-- Header Image Section -->
+        <img src="haryanalabfooter.jpg" alt="Haryana Laboratory Footer" class="footer-image"/>
+    </div>
+
+    <!-- Include html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            // Use the appropriate method to get ipcRenderer based on your Electron setup
+            const ipcRenderer = window.require ? window.require('electron').ipcRenderer : require('electron').ipcRenderer;
+            
+            ipcRenderer.on("generate-letterpad", (event, letterpadData) => {
+                const signatureImg = document.getElementById("signatureImg");
+                
+                // Set signature image based on selected value
+                if (letterpadData.signature === "signature1") {
+                    signatureImg.src = "./unclesign.png";
+                } else if (letterpadData.signature === "signature2") {
+                    signatureImg.src = "./sweshguptasign.png";
+                }
+
+                // Generate PDF once signature is set
+                const element = document.getElementById("content");
+                const options = {
+                    margin: [5, 5, 5, 5], // Reduced margins for A4 fit
+                    filename: "letterpad.pdf",
+                    image: { type: "jpeg", quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+                };
+
+                html2pdf().set(options).from(element).save();
+            });
+        });
+    </script>
+</body>
+</html>

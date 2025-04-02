@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Menu</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .menu-bar {
+            background-color: #f7fafc; /* Change this to your desired color */
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .menu-item {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="menu-item" onclick="navigateTo('home')">Home</div>
+        <div class="menu-item" onclick="navigateTo('profile')">Profile</div>
+        <div class="menu-item" onclick="navigateTo('reports')">Reports</div>
+    </div>
+</body>
+<script>
+    function navigateTo(page) {
+        // Implement navigation logic here
+        console.log("Navigating to", page);
+    }
+</script>
+</html>

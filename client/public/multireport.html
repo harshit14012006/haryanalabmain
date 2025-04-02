@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complex Design Example</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .box-container {
+        border: 2px solid #800000;
+        padding: 2px;
+        border-radius: 12px;
+        max-width: 906px;
+      }
+
+      .reg-number {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #800000;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #8b3f3b;
+        color: white;
+        padding: 10px 20px;
+        width: 864.5px;
+        height: 80px;
+        border-radius: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        padding: 10px;
+        border-radius: 6px;
+        border: 2px solid white;
+        height: 64px;
+      }
+
+      .logo img {
+        width: 70px;
+        height: 50px;
+      }
+
+      .lab-name {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .address {
+        font-size: 20px;
+      }
+
+      .contact {
+        text-align: right;
+        font-size: 14px;
+        background-color: transparent;
+        padding: 10px;
+        border-radius: 6px;
+        border: 2px solid white;
+        margin-right: -10px;
+      }
+
+      .contact div {
+        display: flex;
+        align-items: center;
+      }
+
+      .contact div img {
+        width: 18px;
+        height: 15px;
+        margin-right: 0.5rem;
+      }
+
+      .report-container {
+        border: 1.4px solid #800000;
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: -16px;
+        height: 85px;
+      }
+
+      .report-header {
+        text-align: center;
+        height: 12px;
+        padding-bottom: 10px;
+      }
+
+      .report-header .headername {
+        margin-top: -133px;
+        border-radius: 5px;
+      }
+
+      .report-header .header-left {
+        float: left;
+        font-size: 14px;
+        border: 1.5px solid #800000;
+        padding: 5px;
+        border-radius: 6px;
+        margin-top: -16px;
+        margin-left: -15.5px;
+      }
+
+      .report-header .header-right {
+        float: right;
+        font-size: 14px;
+        border: 1.5px solid #800000;
+        padding: 5px;
+        margin-top: -15px;
+        border-radius: 5px;
+        margin-right: -12px;
+      }
+
+      .report-header h2 {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #800000;
+        color: white;
+        font-size: 16px;
+      }
+
+      .clearfix {
+        clear: both;
+      }
+
+      .report-details {
+        margin-top: 10px;
+        font-size: 14px;
+        /* line-height: 24px; */
+        position: relative;
+      }
+
+      .detail-row span {
+        margin: 0 5px;
+        color: #800000;
+      }
+
+      .dotted-border-section {
+        border-bottom: 1px #800000;
+        padding-bottom: 5px;
+      }
+
+      .report-footer {
+        margin-top: 10px;
+        font-size: 14px;
+        padding-top: 5px;
+        text-align: left;
+      }
+
+      .extra-container {
+        border: 1.4px solid #800000;
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 2px;
+        height: 3px;
+        position: relative;
+      }
+
+      .report-columns {
+        display: flex;
+        font-size: 12px;
+        width: 1220px;
+        margin-top: 2px;
+        white-space: nowrap;
+      }
+
+      .report-column2 {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        color: #8b3f3b;
+        border-radius: 6px;
+        width: 171px;
+      }
+
+      .report-column {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        color: #8b3f3b;
+        border-radius: 6px;
+        width: 120.6px;
+      }
+
+      .report-column {
+        white-space: nowrap;
+      }
+
+      .last-container {
+        border: 1.4px solid #800000;
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 2px;
+        height: 30px;
+        position: relative;
+        color: #800000;
+      }
+
+      .analysis-text {
+        text-align: center;
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #800000;
+      }
+      .Sample {
+        position: absolute;
+        left: 22rem;
+        top: -0.4rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .Selected {
+        position: absolute;
+        left: 32rem;
+        top: -0.4rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .Date1 {
+        position: absolute;
+        left: 46.5rem;
+        top: -0.4rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .Name {
+        position: absolute;
+        left: 8.5rem;
+        top: 2rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .City {
+        position: absolute;
+        left: 27.2rem;
+        top: 2rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .Seal {
+        position: absolute;
+        left: 24rem;
+        top: 0.9rem;
+        transform: translateX(-25%); /* Adjust as needed */
+      }
+      .Remarks {
+        position: absolute;
+        left: 23rem;
+        top: 0.9rem;
+        transform: translateX(-50%); /* Adjust as needed */
+      }
+      .image {
+        position: absolute;
+        left: 50rem;
+        top: 0.1rem;
+        transform: translateX(-30%); /* Adjust as needed */
+      }
+      .signature {
+        width: 130px;
+        height: 60px;
+      }
+      .inpfld {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        width: 250px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld1 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        padding-left: 3px;
+        padding-right: 3px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld2 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld3 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        width: 310px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld4 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        width: 246px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld5 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        width: 420px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .inpfld6 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        width: 420px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="downloadBtn">Download As pdf</button>
+    <div class="box-container" id="MainContent">
+      <div class="reg-number">Regd. No. 05/11/03956/P.M.T/SSI/Dt. 11-04-86</div>
+      <div class="header">
+        <div class="logo">
+          <img src="../src/images/lablogo.png" alt="Logo" />
+        </div>
+        <div class="lab-name">
+          HARYANA LABORATORY <br />
+          <span class="address"
+            >Suvidha Marg, Corner Gali No. 3, Aggarsain Colony,
+            SIRSA-125055</span
+          >
+        </div>
+        <div class="contact">
+          <div><img src="whtsapp.png" alt="WhatsApp" />86076-23157</div>
+          <div><img src="call.jpg" alt="Phone" />91833-23157</div>
+          <div><img src="call.jpg" alt="Phone" />94655-37157</div>
+          <div><img src="call.jpg" alt="Phone" />81685-26828</div>
+        </div>
+      </div>
+      <br />
+
+      <div class="report-container">
+        <div class="report-header">
+          <div class="header-left">
+            Sample Not Drawn By<br />
+            Haryana lab.
+          </div>
+          <h2 class="headername">ANALYSIS REPORT</h2>
+          <div class="header-right" id="header-right">Date 03-04-2019</div>
+        </div>
+
+        <div class="report-details">
+          <div class="dotted-border-section">
+            <div class="detail-row">
+              <span
+                >We hereby Certify that a sample described as
+                <span
+                  >...............................................................................</span
+                >
+
+                <span class="Sample" id="Sample"
+                  ><input
+                    type="text"
+                    class="inpfld"
+                    id="inpfld"
+                    value="Hello"
+                    disabled /></span
+                ><span class="Selected" id="Selected"
+                  ><input
+                    type="text"
+                    disabled
+                    class="inpfld1"
+                    value="Sealed"
+                    id="inpfld1" /></span
+              ></span>
+              <span
+                >received by us on dt<span>...........................</span
+                ><span class="Date1" id="Date1"
+                  ><input
+                    type="text"
+                    disabled
+                    class="inpfld2"
+                    value="12-12-2021"
+                    id="inpfld2" /></span
+              ></span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span
+              >Sh./M/s/
+              <span
+                >................................................................................................................................................</span
+              ><span class="Name" id="Name"
+                ><input
+                  type="text"
+                  disabled
+                  class="inpfld3"
+                  value="Swesh Gupta"
+                  id="inpfld3" /></span
+              ><span class="City" id="City"
+                ><input
+                  type="text"
+                  disabled
+                  class="inpfld4"
+                  value="Sirsa"
+                  id="inpfld4" /></span
+            ></span>
+            <span>being particulars &amp; result as under .</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="extra-container">
+        <div class="report-header">
+          <span style="color: #800000" id="Category"> </span>
+          <span
+            >......................................................................................................................................................................</span
+          ><span class="Seal" id="Seal"
+            ><input
+              type="text"
+              disabled
+              class="inpfld5"
+              id="inpfld5"
+              value="Purab"
+          /></span>
+        </div>
+      </div>
+
+      <div id="reportRows">
+        <div class="report-columns">
+          <div class="report-column">Report No.</div>
+
+          <div class="report-column">Sample Code</div>
+          <div class="report-column">Sample Date</div>
+          <div class="report-column">Vehicle No.</div>
+          <div class="report-column">Bags</div>
+          <div class="report-column">Weight</div>
+          <div class="report-column2">Oil%/Moist.%/FFA%/Others</div>
+        </div>
+      </div>
+
+      <div class="last-container">
+        Remarks<span
+          >....................................................................................................................................</span
+        ><span class="Remarks" id="Remarks"
+          ><input
+            type="text"
+            class="inpfld6"
+            id="inpfld6"
+            disabled
+            value="Doneeeeee"
+        /></span>
+        Signature
+        <span class="image" id="image"
+          ><img src="" alt="Sign" id="Sign" class="signature"
+        /></span>
+      </div>
+
+      <div class="analysis-text">
+        A House For Analysis of Rice Bran,Oil Seeds,Oil
+        Cakes,Atta,Maida,Suzi,Besan,Spices,Condiments,Acids & Fertilizers
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+      function generateRows(data) {
+        const reportRows = document.getElementById("reportRows");
+        console.log(data);
+        data.forEach((row) => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+
+          rowDiv.innerHTML = `
+            <div class="report-column">${row.Reportno}</div>
+            <div class="report-column">${row.Code}</div>
+            <div class="report-column">${DateChange(row.Dated)}</div>
+            <div class="report-column">${row.Vechileno}</div>
+            <div class="report-column">${row.Bags}</div>
+            <div class="report-column">${row.Weight}</div>
+            <div class="report-column2">
+  ${row?.Oil || "-"} / ${row?.Moisture || "-"} / ${row?.FFA || "-"} / ${
+            row?.AnotherValue || "-"
+          }
+</div>
+
+          `;
+
+          reportRows.appendChild(rowDiv);
+        });
+        for (i = 0; i < 8 - data.length; i++) {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+
+          rowDiv.innerHTML = `
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column2">_</div>
+            `;
+
+          reportRows.appendChild(rowDiv);
+        }
+      }
+
+      const { jsPDF } = window.jspdf;
+      let pdfContainer;
+      let cloneContainer;
+
+      const addCSS = () => {
+        const style = document.createElement("style");
+        style.textContent = `
+    .clone-content {
+      margin-bottom: 10mm; /* Adjust padding as needed */
+      page-break-inside: avoid; /* Prevents splitting within the element */
+      overflow: hidden; /* Hides overflow */
+    }
+  `;
+        document.head.appendChild(style);
+      };
+
+      // Add the CSS when document is loaded
+      window.addEventListener("DOMContentLoaded", addCSS);
+
+      // Download Button Event Listener
+      document
+        .getElementById("downloadBtn")
+        ?.addEventListener("click", function () {
+          if (cloneContainer) {
+            pdfContainer.appendChild(cloneContainer); // Append cloned content
+          }
+          const options = {
+            margin: [10, 17, 0, 0], // [top, right, bottom, left] in mm
+            filename: `multireport${Data.Station}`,
+            image: { type: "png", quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "letter", orientation: "landscape" },
+          };
+
+          html2pdf()
+            .set(options)
+            .from(pdfContainer)
+            .save()
+            .then(() => {
+              cloneContainer.innerHTML = ""; // Clear after generating PDF
+            });
+        });
+
+      function DateChange(dateStr) {
+        const [day, month, year] = dateStr.split("-");
+        return `${day}-${month}-${year}`;
+      }
+
+      // Create a page with JSON data and add it to cloneContainer
+      function createPageWithJsonData(dataChunk, Data) {
+        console.log("Working with JSON data");
+        const mainContent = document.getElementById("MainContent");
+        const newComponent = mainContent.cloneNode(true);
+        newComponent.classList.add("clone-content");
+        newComponent.removeAttribute("id"); // Remove ID to avoid duplicates
+
+        // Update fields in the cloned content
+        const reportRows = newComponent.querySelector("#reportRows");
+        reportRows.innerHTML = ""; // Clear rows for fresh content
+
+        newComponent.querySelector("#inpfld").value = Data.Samplename;
+        newComponent.querySelector("#inpfld1").value = Data.Selected;
+        newComponent.querySelector("#inpfld2").value = DateChange(Data.Dated);
+        newComponent.querySelector("#inpfld3").value = Data.From;
+        newComponent.querySelector("#inpfld4").value = Data.Station;
+        newComponent.querySelector("#inpfld5").value = Data.SealEngraved;
+        newComponent.querySelector("#inpfld6").value = Data.Remarks;
+        newComponent.querySelector(
+          "#header-right"
+        ).innerHTML = `Date ${DateChange(Data.Billeddate)}`;
+        newComponent.querySelector("#Sign").src =
+          Data[0].Signature === "signature1"
+            ? "./unclesign.png"
+            : Data[0].Signature === "signature2"
+            ? "./sweshguptasign.png"
+            : ""; // Default case (Agar koi match na ho toh empty string)
+        const rowdivName = document.createElement("div");
+        rowdivName.className = "report-columns";
+        rowdivName.innerHTML = `
+             <div class="report-column">Report No.</div>
+          <div class="report-column">Sample Code</div>
+          <div class="report-column">Sample Date</div>
+          <div class="report-column">Vehicle No.</div>
+          <div class="report-column">Bags</div>
+          <div class="report-column">Weight</div>
+          <div class="report-column2">Oil%/Moist.%/FFA%/Others</div>
+        `;
+        reportRows.appendChild(rowdivName);
+
+        // Populate report rows
+        dataChunk.forEach((row) => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+          rowDiv.innerHTML = `
+            <div class="report-column">${row.Reportno}</div>
+            <div class="report-column">${row.Code}</div>
+            <div class="report-column">${DateChange(row.Dated)}</div>
+            <div class="report-column">${row.Vechileno}</div>
+            <div class="report-column">${row.Bags}</div>
+            <div class="report-column">${row.Weight}</div>
+            <div class="report-column2">${row.Oil} /${row.Moisture} /${
+            row.FFA
+          } /${row.AnotherValue}</div>
+        `;
+          reportRows.appendChild(rowDiv);
+        });
+
+        // Fill extra rows with placeholders
+        const extraRows = 8 - dataChunk.length;
+        for (let i = 0; i < extraRows; i++) {
+          const emptyRow = document.createElement("div");
+          emptyRow.className = "report-columns";
+          emptyRow.innerHTML = "<div class='report-column'>_</div>".repeat(9);
+          reportRows.appendChild(emptyRow);
+        }
+
+        cloneContainer.appendChild(newComponent); // Append to clone container
+      }
+
+      // Initialize on DOMContentLoaded
+      window.addEventListener("DOMContentLoaded", () => {
+        window.ipcRenderer.on(
+          "render-MultiReport-report",
+          (event, reportData) => {
+            Data = reportData;
+            document.querySelector("#inpfld").value = Data[0].Samplename;
+            document.querySelector("#inpfld1").value = Data[0].Selected;
+            document.querySelector("#inpfld2").value = DateChange(
+              Data[0].Dated
+            );
+            document.querySelector("#inpfld3").value = Data[0].From;
+            document.querySelector("#inpfld4").value = Data[0].Station;
+            document.querySelector("#inpfld5").value = Data[0].SealEngraved;
+            document.querySelector("#inpfld6").value = Data[0].Remarks;
+            document.querySelector("#Category").innerHTML = Data[0].Category;
+            document.querySelector(
+              "#header-right"
+            ).innerHTML = `Date ${DateChange(Data[0].Billeddate)}`;
+            document.querySelector("#Sign").src =
+              Data[0].Signature === "signature1"
+                ? "./unclesign.png"
+                : Data[0].Signature === "signature2"
+                ? "./sweshguptasign.png"
+                : ""; // Default case
+            pdfContainer = document.createElement("div");
+            pdfContainer.id = "pdfContainer";
+            document.body.appendChild(pdfContainer);
+
+            cloneContainer = document.createElement("div");
+            cloneContainer.id = "cloneContainer";
+            pdfContainer.appendChild(cloneContainer);
+
+            // First page setup with main content
+            const mainContent = document.getElementById("MainContent");
+            pdfContainer.appendChild(mainContent);
+
+            const itemsPerPage = 8;
+            for (let i = 0; i < Data.length; i += itemsPerPage) {
+              const dataChunk = Data.slice(i, i + itemsPerPage);
+              if (i === 0) {
+                generateRows(dataChunk); // First page with main content
+              } else {
+                createPageWithJsonData(dataChunk, Data[0]); // Subsequent pages
+              }
+            }
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complex Design Example</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #8b3f3b;
+        color: white;
+        padding: 10px 20px;
+        width: 973px;
+        height: 80px;
+        border-radius: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid white;
+      }
+
+      .logo img {
+        width: 70px;
+        height: 50px;
+      }
+
+      .lab-name {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .address {
+        font-size: 20px;
+      }
+
+      .contact {
+        text-align: right;
+        font-size: 14px;
+        background-color: transparent;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid white;
+      }
+
+      .contact div {
+        display: flex;
+        align-items: center;
+      }
+
+      .contact div img {
+        width: 18px;
+        height: 15px;
+      }
+
+      .reportrecord {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #8b3f3b;
+        padding: 0px 20px;
+        width: 973px;
+        padding-top: 13px;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid #8b3f3b;
+        background-color: white;
+        margin-top: -15px;
+      }
+
+      .reportrecordtext {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+        margin-bottom: 4px;
+        position: relative;
+      }
+
+      .partyname {
+        font-size: 16px;
+      }
+
+      .report-columns {
+        display: flex;
+        font-size: 12px;
+        width: 1255px;
+        margin-top: 2px;
+        white-space: nowrap;
+      }
+
+      .report-column {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 90.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .report-column2 {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 212.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .report-columnOMF {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 153.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Ensuring no wrap for the text */
+      .report-column {
+        white-space: nowrap;
+      }
+      /* Set up the height for landscape mode */
+      @media print {
+        @page {
+          size: landscape;
+        }
+      }
+      .partynameByuser {
+        position: absolute;
+        left: 35%; /* Center horizontally relative to the container */
+        top: 0.8rem; /* Adjust top positioning as needed */
+        transform: translateX(-50%); /* Center-aligns it within the container */
+      }
+      .inpfld {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        padding-left: 150px;
+        padding-right: 150px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .stateset {
+        position: absolute;
+        left: 85%; /* Adjust as needed to keep spacing */
+        top: 0.8rem; /* Same top positioning as partynameByuser */
+        transform: translateX(-50%); /* Adjust as needed */
+      }
+      .inpfld1 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        padding-left: 40px;
+        padding-right: 40px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="downloadBtn">Download as Image</button>
+    <div id="MainContent">
+      <div class="header" id="content">
+        <div class="logo">
+          <img src="../src/images/lablogo.png" alt="Logo" />
+        </div>
+        <div class="lab-name">
+          HARYANA LABORATORY <br />
+          <span class="address"
+            >Suvidha Marg, Corner Gali No. 3, Aggarsain Colony,
+            SIRSA-125055</span
+          >
+        </div>
+        <div class="contact">
+          <div><img src="whtsapp.png" alt="WhatsApp" />86076-23157</div>
+          <div><img src="call.jpg" alt="Phone" />91833-23157</div>
+          <div><img src="call.jpg" alt="Phone" />94655-37157</div>
+          <div><img src="call.jpg" alt="Phone" />81685-26828</div>
+        </div>
+      </div>
+      <br />
+      <div class="reportrecord">
+        <div class="reportrecordtext">
+          (Record Of Your Reports) <br />
+          <span class="partyname"
+            >Party Name Sh/M/S
+            <span
+              >.................................................................................................................................................................................</span
+            >
+            <span class="partynameByuser" id="partynameByuser"
+              ><input type="text" class="inpfld" disabled value="Hrllo"
+            /></span>
+            <span class="stateset" id="stateset"
+              ><input type="text" disabled class="inpfld1" value="Sirsa"
+            /></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- First Row of Columns -->
+      <div class="report-columns">
+        <div class="report-column">Date Of Testing</div>
+        <div class="report-column">Report No.</div>
+        <div class="report-column2">Sealed By</div>
+        <div class="report-column">Sample Code</div>
+        <div class="report-column">Sample Date</div>
+        <div class="report-column">Vehicle No.</div>
+        <div class="report-column">Bags</div>
+        <div class="report-column">Weight</div>
+        <div class="report-columnOMF">Oil%/Moist%/FFA%/Others</div>
+      </div>
+
+      <!-- Generate rows dynamically -->
+      <div id="reportRows"></div>
+    </div>
+
+    <!-- Script Tag Called -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+      // Sample data for the rows
+
+      function generateRows(data) {
+        const reportRows = document.getElementById("reportRows");
+        console.log(data);
+        data.forEach((row) => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+
+          rowDiv.innerHTML = `
+            <div class="report-column">${row.Dated}</div>
+            <div class="report-column">${row.Reportno}</div>
+            <div class="report-column2">${row.SealEngraved}</div>
+            <div class="report-column">${row.Code}</div>
+            <div class="report-column">${row.Date}</div>
+            <div class="report-column">${row.Vechileno}</div>
+            <div class="report-column">${row.Bags}</div>
+            <div class="report-column">${row.Weight}</div>
+            <div class="report-columnOMF">${row.Oil} / ${row.Moisture} / ${row.FFA} / ${row.AnotherValue}</div>
+          `;
+
+          reportRows.appendChild(rowDiv);
+        });
+        for (i = 0; i < 14 - data.length; i++) {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+          console.log("Generate Loop Working", data.length);
+          rowDiv.innerHTML = `
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column2">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-columnOMF">_</div>
+          `;
+
+          reportRows.appendChild(rowDiv);
+        }
+      }
+
+      // Call the function to populate rows
+
+      const { jsPDF } = window.jspdf;
+      let pdfContainer;
+      let cloneContainer;
+
+      const addCSS = () => {
+        const style = document.createElement("style");
+        style.textContent = `
+    .clone-content {
+      margin-bottom: 8mm; /* Adjust padding as needed */
+      page-break-inside: avoid; /* Prevents splitting within the element */
+      overflow: hidden; /* Hides overflow */
+    }
+      #MainContent{
+      margin-bottom: 10mm; /* Adjust padding as needed */
+      border: 1px solid #8b3f3b;
+    padding: 3px;
+    border-radius: 11px;
+    margin-right: 1.9rem;
+    margin-left: -6px;
+      }
+  `;
+        document.head.appendChild(style);
+      };
+
+      // Add the CSS when document is loaded
+      window.addEventListener("DOMContentLoaded", addCSS);
+
+      document
+        .getElementById("downloadBtn")
+        .addEventListener("click", function () {
+          if (cloneContainer) {
+            pdfContainer.appendChild(cloneContainer); // Append cloned content
+          }
+          const options = {
+            margin: [7, 3, 0, 0], // [top, right, bottom, left] in mm
+            filename: `printrecordreport${Data.PartyName}`,
+            image: { type: "png", quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "letter", orientation: "landscape" },
+          };
+
+          html2pdf()
+            .set(options)
+            .from(pdfContainer)
+            .save()
+            .then(function () {
+              cloneContainer.innerHTML = "";
+            });
+        });
+
+      function createPageWithJsonData(dataChunk, City, PartyName) {
+        // Clone MainContent section
+        const mainContent = document.getElementById("MainContent");
+        const newComponent = mainContent.cloneNode(true);
+        newComponent.removeAttribute("id");
+
+        // Add a class to cloned content for styling
+        newComponent.classList.add("clone-content");
+
+        // Reset `reportRows` in the cloned component
+        const reportRows = newComponent.querySelector("#reportRows");
+        reportRows.innerHTML = ""; // Clear previous data in the clone
+
+        // Add input fields in the cloned component
+        const inpfld = newComponent.querySelector(".inpfld");
+        const inpfld1 = newComponent.querySelector(".inpfld1");
+        // document.querySelector(".inpfld1").value = "";
+        // document.querySelector(".inpfld").value = "";
+        if (inpfld) inpfld.value = PartyName;
+        if (inpfld1) inpfld1.value = City;
+
+        // Generate rows with the data chunk
+
+        dataChunk.forEach((row) => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+
+          rowDiv.innerHTML = `
+            <div class="report-column">${row.Dated}</div>
+            <div class="report-column">${row.Reportno}</div>
+            <div class="report-column2">${row.SealEngraved}</div>
+            <div class="report-column">${row.Code}</div>
+            <div class="report-column">${row.Date}</div>
+            <div class="report-column">${row.Vechileno}</div>
+            <div class="report-column">${row.Bags}</div>
+            <div class="report-column">${row.Weight}</div>
+            <div class="report-columnOMF">${row.Oil} / ${row.Moisture} / ${row.FFA} / ${row.AnotherValue}</div>
+        `;
+
+          reportRows.appendChild(rowDiv);
+        });
+        for (i = 0; i < 14 - (dataChunk.length - 1); i++) {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "report-columns";
+          rowDiv.innerHTML = `
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column2">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-column">_</div>
+            <div class="report-columnOMF">_</div>
+          `;
+
+          reportRows.appendChild(rowDiv);
+        }
+
+        // Remove ID to avoid duplicates before appending
+        newComponent.id = "";
+        document.body.appendChild(newComponent);
+        cloneContainer.appendChild(newComponent);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        window.ipcRenderer.on("render-Party-report", (event, reportData) => {
+          Data = reportData;
+          console.log(Data.Records);
+          document.querySelector(".inpfld1").value = Data.City;
+          document.querySelector(".inpfld").value = Data.PartyName;
+
+          pdfContainer = document.createElement("div");
+          pdfContainer.id = "pdfContainer";
+          document.body.appendChild(pdfContainer);
+
+          cloneContainer = document.createElement("div");
+          cloneContainer.id = "cloneContainer";
+          pdfContainer.appendChild(cloneContainer);
+
+          // First page setup with main content
+          const mainContent = document.getElementById("MainContent");
+          pdfContainer.appendChild(mainContent);
+          // Split data into chunks and generate pages
+          const itemsPerPage = 15;
+          for (let i = 0; i < Data.Records.length; i += itemsPerPage) {
+            const dataChunk = Data.Records.slice(i, i + itemsPerPage);
+            // Use initial MainContent if it's the first page
+            console.log("Loop ........");
+            if (i === 0) {
+              generateRows(dataChunk);
+            } else {
+              console.log("Else Working");
+              // Clone for additional data chunks
+              console.table(dataChunk);
+
+              createPageWithJsonData(dataChunk, Data.City, Data.PartyName);
+            }
+          }
+
+          // generateRows(Data.Records);
+        });
+      });
+    </script>
+  </body>
+</html>

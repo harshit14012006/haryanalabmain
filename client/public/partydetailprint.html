@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Party Detail Report</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .box-container {
+        border: 2px solid #800000;
+        padding: 2px;
+        border-radius: 12px;
+        width: 1198px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #8b3f3b;
+        color: white;
+        padding: 10px 20px;
+        /* width: 964px; */
+        height: 80px;
+        border-radius: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid white;
+        height: 64px;
+      }
+
+      .logo img {
+        width: 70px;
+        height: 50px;
+      }
+
+      .lab-name {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .address {
+        font-size: 20px;
+      }
+
+      .contact {
+        text-align: right;
+        font-size: 14px;
+        background-color: transparent;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid white;
+      }
+
+      .contact div {
+        display: flex;
+        align-items: center;
+      }
+
+      .contact div img {
+        width: 18px;
+        height: 15px;
+        padding-right: 6px;
+      }
+
+      .reportrecord {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #8b3f3b;
+        padding: 0px 20px;
+        width: 973px;
+        padding-top: 13px;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid #8b3f3b;
+        background-color: white;
+        margin-top: -15px;
+      }
+
+      .reportrecordtext {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+        margin-bottom: 4px;
+        position: relative;
+      }
+
+      .partyname {
+        font-size: 16px;
+      }
+
+      .report-columns {
+        display: flex;
+        font-size: 12px;
+        width: 1255px;
+        margin-top: 2px;
+        white-space: nowrap;
+      }
+
+      .report-column {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 195.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .report-column1 {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 212.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .report-columnOMF {
+        border: 1px solid #8b3f3b;
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px 0px;
+        width: 153.5px;
+        color: #8b3f3b;
+        border-radius: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Ensuring no wrap for the text */
+      .report-column {
+        white-space: nowrap;
+      }
+      /* Set up the height for landscape mode */
+      @media print {
+        @page {
+          size: landscape;
+        }
+      }
+      .partynameByuser {
+        position: absolute;
+        left: 35%; /* Center horizontally relative to the container */
+        top: 0.8rem; /* Adjust top positioning as needed */
+        transform: translateX(-50%); /* Center-aligns it within the container */
+      }
+      .inpfld {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        padding-left: 150px;
+        padding-right: 150px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      }
+      .stateset {
+        position: absolute;
+        left: 85%; /* Adjust as needed to keep spacing */
+        top: 0.8rem; /* Same top positioning as partynameByuser */
+        transform: translateX(-50%); /* Adjust as needed */
+      }
+      .inpfld1 {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.1);
+        text-align: center;
+        padding-left: 40px;
+        padding-right: 40px;
+        font-family: Arial, sans-serif; /* Change the font family */
+        font-size: 16px; /* Change the font size */
+        color: #812929; /* Change the font color */
+      } 
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <button id="downloadBtn" onclick="downloadPDFFinal()">Download as PDF</button>
+  
+  <body>
+    <div id="MainContent" class="box-container">
+      <div class="header" id="content">
+        <div class="logo">
+          <img src="../src/images/lablogo.png" alt="Logo" />
+        </div>
+        <div class="lab-name">
+          HARYANA LABORATORY <br />
+          <span class="address">Suvidha Marg, Corner Gali No. 3, Aggarsain Colony, SIRSA-125055</span>
+        </div>
+        <div class="contact">
+          <div><img src="whtsapp.png" alt="WhatsApp" />86076-23157</div>
+          <div><img src="call.jpg" alt="Phone" />91833-23157</div>
+          <div><img src="call.jpg" alt="Phone" />94655-37157</div>
+          <div><img src="call.jpg" alt="Phone" />81685-26828</div>
+        </div>
+      </div>
+      <br />
+      <!-- Column Headers -->
+      <div class="report-columns">
+        <div class="report-column1">Party Name</div>
+        <div class="report-column">State</div>
+        <div class="report-column">City</div>
+        <div class="report-column">Address No.1</div>
+        <div class="report-column">Mobile No.1</div>
+        <div class="report-column">Email 1</div> <!-- Added Email 1 Column -->
+      </div>
+      
+      <!-- Data Rows Will Be Inserted Here -->
+      <div id="reportRows"></div>
+
+      <!-- Download Button -->
+    </div>
+<!-- Download Button -->
+<script>
+  function downloadPDFFinal() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p", "mm", "a4");
+
+  // Hide the download button before capturing the content
+  const button = document.getElementById("downloadBtn");
+  button.style.display = "none";
+
+  html2canvas(document.getElementById("MainContent")).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const imgWidth = 180; // Set width less than A4 width for margins
+    const pageWidth = 210; // A4 width in mm
+    const pageHeight = 297; // A4 height in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    // Calculate the center position
+    const xPosition = (pageWidth - imgWidth) / 2; // Center horizontally
+    const yPosition = (pageHeight - imgHeight) / 2; // Center vertically
+
+    doc.addImage(imgData, "PNG", xPosition, yPosition, imgWidth, imgHeight);
+    doc.save(`PartyDetail${reportData.Partyname}.pdf`);
+
+    // Show the download button again after capturing
+    button.style.display = "block";
+  });
+} 
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "mm", "a4");
+
+    // Hide the download button before capturing the content
+    const button = document.getElementById("downloadBtn");
+    button.style.display = "none";
+
+    html2canvas(document.getElementById("MainContent")).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      doc.save(`Party_Detail_ReportFinal.pdf`);
+
+      // Show the download button again after capturing
+      button.style.display = "block";
+    });
+  
+</script>
+    <script>
+      // Listen for the report data event and populate the report
+      window.ipcRenderer.on("render-party-detail-report", (event, reportData) => {
+        console.log("Received report data:", reportData);
+        const reportRows = document.getElementById("reportRows");
+        reportRows.innerHTML = ""; // Clear previous data
+
+        // Loop through details and generate rows
+        if (reportData.details && Array.isArray(reportData.details)) {
+          reportData.details.forEach((item) => {
+            const row = document.createElement("div");
+            row.classList.add("report-columns");
+            row.innerHTML = `
+              <div class="report-column1">${item.Partyname || ""}</div>
+              <div class="report-column">${item.State || ""}</div>
+              <div class="report-column">${item.City || ""}</div>
+              <div class="report-column">${item.Address1 || ""}</div>
+              <div class="report-column">${item.Mobile1 || ""}</div>
+              <div class="report-column">${item.Email1}</div> 
+            `;
+            reportRows.appendChild(row);
+          });
+        } else {
+          reportRows.innerHTML = "<p>No report details available.</p>";
+        }
+      });
+
+      // Download HTML as PDF
+  //       function downloadPDFFinal() {
+  //   const { jsPDF } = window.jspdf;
+  //   const doc = new jsPDF("p", "mm", "a4");
+
+  //   html2canvas(document.getElementById("MainContent")).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const imgWidth = 205;
+  //     const pageHeight = 297;
+  //     const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //     doc.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+  //     // Get city name from the first item (if available)
+  //     const cityName =
+  //       reportData.details && reportData.details.length > 0
+  //         ? reportData.details[0].City || "UnknownCity"
+  //         : "UnknownCity";
+
+  //     doc.save(`Party_Detail_Reporttt_${City}.pdf`);
+  //   });
+  // }
+
+    </script>
+  </body>
+</html>
