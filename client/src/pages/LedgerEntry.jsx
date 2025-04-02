@@ -10,6 +10,7 @@ function LedgerEntry() {
   const [Repno, setRepNo] = useState([]);
   const [ledgerRepno, setledgerRepNo] = useState([]);
   const [formData, setFormData] = useState({
+    id: "",
     Date: "",
     Reportno: "",
     PartyName: "",
@@ -21,34 +22,38 @@ function LedgerEntry() {
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    axios
-      .get("http://localhost:3001/api/customers")
-      .then((response) => {
-        console.log(response.data);
-        setPartyNames(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching party names:", error);
-      });
-    axios
-      .get(`http://localhost:3001/api/users/`)
-      .then((response) => {
-        console.log("Data From HandleTableData", response.data);
-        const formattedReports = response.data.map((item) => ({
-          ...item,
-          Date: formatDate(item.Date),
-        }));
+  const fetchData = async () => {
+    try {
+      const customersResponse = await axios.get("http://localhost:3001/api/customers");
+      console.log(customersResponse.data);
+      setPartyNames(customersResponse.data);
+
+      const usersResponse = await axios.get("http://localhost:3001/api/users/");
+      console.log("Data From HandleTableData", usersResponse.data);
+      const formattedReports = usersResponse.data.map((item) => ({
+        id: item.id,
+        ...item,
+        Date: formatDate(item.Date),
+      }));
+      setLedgerEntriesFilter(formattedReports);
+      
+      // If a party is selected, filter the entries for that party; otherwise, show all
+      if (selectedParty) {
+        const filterledger = formattedReports.filter(
+          (item) => item.PartyName === selectedParty
+        );
+        setLedgerEntries(filterledger);
+      } else {
         setLedgerEntries(formattedReports);
-        setLedgerEntriesFilter(formattedReports);
-        const First = response.data.map((item) => item.Reportno);
-        let rep = First.filter((item) => item !== "null");
-        rep = rep.map((item) => Number(item));
-        setledgerRepNo(rep);
-      })
-      .catch((error) => {
-        console.error("Error fetching party names:", error);
-      });
+      }
+
+      const First = usersResponse.data.map((item) => item.Reportno);
+      let rep = First.filter((item) => item !== "null");
+      rep = rep.map((item) => Number(item));
+      setledgerRepNo(rep);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const RepNumber = (Data) => {
@@ -137,37 +142,35 @@ function LedgerEntry() {
         Reportno: formData.Reportno,
         PartyName: selectedParty,
         Credit: formData.Credit,
-        Debit: null, // Assuming Debit is null for Credit entries
+        Debit: null,
         Remarks: formData.Remarks,
       };
 
       console.log(formData);
-      await axios.post("http://localhost:3001/api/users/Credit", formData)
-        .then((response) => {
-          console.log(response);
+      const response = await axios.post("http://localhost:3001/api/users/Credit", formData);
+      console.log(response);
 
-          // Update ledgerEntriesFilter and ledgerEntries with the new entry
-          setLedgerEntriesFilter(prev => [...prev, newEntry]);
-          setLedgerEntries(prev => {
-            if (selectedParty) {
-              return [...prev.filter(item => item.PartyName === selectedParty), newEntry];
-            }
-            return [...prev, newEntry];
-          });
+      const newEntryWithId = {
+        id: response.data.id,
+        ...newEntry,
+      };
 
-          // Reset form fields but keep party selection
-          setFormData({
-            Date: "",
-            Reportno: "",
-            PartyName: selectedParty,
-            Credit: "",
-            Remarks: "",
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      setLedgerEntriesFilter(prev => [...prev, newEntryWithId]);
+      setLedgerEntries(prev => {
+        if (selectedParty) {
+          return [...prev.filter(item => item.PartyName === selectedParty), newEntryWithId];
+        }
+        return [...prev, newEntryWithId];
+      });
 
+      setFormData({
+        id: "",
+        Date: "",
+        Reportno: "",
+        PartyName: selectedParty,
+        Credit: "",
+        Remarks: "",
+      });
     } catch (error) {
       console.error("Error adding user:", error);
       alert("Error adding new entry");
@@ -181,69 +184,56 @@ function LedgerEntry() {
 
   const HandleDeleteData = async () => {
     try {
-      if (
-        formData.Date !== "" &&
-        formData.Credit !== "" &&
-        formData.PartyName !== ""
-      ) {
-        await axios
-          .delete(
-            `http://localhost:3001/api/users/${formatDate2(formData.Date)}/${
-              formData.Credit
-            }/${formData.PartyName}`
-          )
-          .then((response) => {
-            console.log(response);
-
-            // Filter out the deleted entry from both ledgerEntriesFilter and ledgerEntries
-            const updatedFilter = ledgerEntriesFilter.filter(
-              (entry) =>
-                !(
-                  entry.Date === formData.Date &&
-                  entry.Credit === formData.Credit &&
-                  entry.PartyName === formData.PartyName
-                )
-            );
-            setLedgerEntriesFilter(updatedFilter);
-
-            // Update ledgerEntries to show only the selected party's remaining entries
-            if (selectedParty) {
-              setLedgerEntries(
-                updatedFilter.filter((item) => item.PartyName === selectedParty)
-              );
-            } else {
-              setLedgerEntries(updatedFilter);
-            }
-
-            // Reset form fields but keep party selection
-            setFormData({
-              Date: "",
-              Reportno: "",
-              PartyName: selectedParty,
-              Credit: "",
-              Remarks: "",
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        alert("Please select a valid entry to delete.");
+      if (!formData.id) {
+        alert("Please select a row to delete by clicking anywhere on it.");
+        return;
       }
+
+      console.log(`Sending DELETE request for id: ${formData.id}`);
+      const response = await axios.delete(`http://localhost:3001/api/users/credit/${formData.id}`);
+      console.log("Delete response:", response.data);
+
+      // Fetch updated data and wait for it to complete
+      await fetchData();
+
+      setFormData({
+        id: "",
+        Date: "",
+        Reportno: "",
+        PartyName: selectedParty,
+        Credit: "",
+        Remarks: "",
+      });
     } catch (error) {
-      console.log(error);
+      let errorMessage = "Unknown error occurred";
+      if (error.response) {
+        errorMessage = `Server error: ${error.response.status} - ${error.response.data.message || JSON.stringify(error.response.data)}`;
+      } else if (error.request) {
+        errorMessage = "No response from server. Is the backend running on http://localhost:3001?";
+      } else {
+        errorMessage = `Request error: ${error.message}`;
+      }
+      console.error("Error deleting entry:", errorMessage);
+      alert(`Error deleting entry: ${errorMessage}`);
     }
   };
 
-
   const handleData = (data) => {
     if (data.Credit) {
-      console.log(data.Credit);
-      setFormData(data);
+      console.log("Selected row data:", data);
+      setFormData({
+        id: data.id || "",
+        Date: data.Date || "",
+        Reportno: data.Reportno || "",
+        PartyName: data.PartyName || "",
+        Credit: data.Credit || "",
+        Remarks: data.Remarks || "",
+      });
       setSelectedParty(data.PartyName);
       handlePartyCity(data.PartyName);
     } else {
       setFormData({
+        id: "",
         Date: "",
         Reportno: "",
         PartyName: selectedParty,
@@ -357,7 +347,6 @@ function LedgerEntry() {
             </fieldset>
           </div>
         </form>
-
         <div className="mt-5">
           <fieldset className="p-4 border rounded">
             <legend className="mb-4 text-sm font-normal">Control Panel</legend>
@@ -423,7 +412,7 @@ function LedgerEntry() {
                   {ledgerEntries.length > 0 &&
                     ledgerEntries.map((entry, i) => (
                       <tr
-                        key={i}
+                        key={entry.id || i}
                         onClick={() => {
                           handleData(entry);
                         }}

@@ -13,32 +13,40 @@ function CashVoucher() {
   const [date, setDate] = useState("");
   const [partyName, setPartyName] = useState("");
   const [tableData, setTableData] = useState({
+    id: "",
     Reportno: "",
     Date: "",
   });
 
   useEffect(() => {
-    fetchParties();
+    fetchData();
   }, []);
 
-  const fetchParties = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/customers");
-      setParties(response.data);
+      const customersResponse = await axios.get("http://localhost:3001/api/customers");
+      setParties(customersResponse.data);
 
-      const response2 = await axios.get("http://localhost:3001/api/users/");
-      if (response2) {
-        const formattedReports = response2.data.map((item) => ({
-          ...item,
-          Date: formatDate(item.Date),
-        }));
-        setVouchers(formattedReports);
-        setVouchersFilter(formattedReports);
+      const usersResponse = await axios.get("http://localhost:3001/api/users/");
+      const formattedReports = usersResponse.data.map((item) => ({
+        id: item.id,
+        ...item,
+        Date: formatDate(item.Date),
+        Remarks: item.Remarks || "",
+      }));
+      setVouchersFilter(formattedReports);
+
+      if (partyName) {
+        const filterVouchers = formattedReports.filter(
+          (item) => item.PartyName === partyName
+        );
+        setVouchers(filterVouchers);
       } else {
-        setVouchers([]);
+        setVouchers(formattedReports);
       }
     } catch (error) {
-      console.error("Error fetching parties:", error);
+      console.error("Error fetching data:", error);
+      setVouchers([]);
     }
   };
 
@@ -69,23 +77,52 @@ function CashVoucher() {
       PartyName: selectedParty?.Partyname || "",
       Reportno: "null",
       Debit: amount,
-      Remarks: remarks,
+      Remarks: remarks || "",
     };
 
-    console.log(newVoucher);
     try {
       if (newVoucher.Date && newVoucher.PartyName && newVoucher.Debit) {
         const response = await axios.post("http://localhost:3001/api/users/Debit", newVoucher);
-        console.log("API Response:", response.data);
-
+        console.log("POST Response:", response.data); // Debug log
         const formattedNewVoucher = {
+          id: response.data.id,
           ...newVoucher,
           Date: formatDate(newVoucher.Date),
           Credit: null,
         };
 
-        setVouchersFilter((prev) => [...prev, formattedNewVoucher]);
-        setVouchers((prev) => [...prev, formattedNewVoucher]);
+        setVouchersFilter((prev) => {
+          const exists = prev.some(
+            (voucher) =>
+              voucher.Date === formattedNewVoucher.Date &&
+              voucher.PartyName === formattedNewVoucher.PartyName &&
+              voucher.Debit === formattedNewVoucher.Debit &&
+              voucher.Remarks === formattedNewVoucher.Remarks
+          );
+          if (exists) return prev;
+          return [...prev, formattedNewVoucher];
+        });
+
+        setVouchers((prev) => {
+          const exists = prev.some(
+            (voucher) =>
+              voucher.Date === formattedNewVoucher.Date &&
+              voucher.PartyName === formattedNewVoucher.PartyName &&
+              voucher.Debit === formattedNewVoucher.Debit &&
+              voucher.Remarks === formattedNewVoucher.Remarks
+          );
+          if (exists) return prev;
+          if (partyName) {
+            return [...prev.filter((item) => item.PartyName === partyName), formattedNewVoucher];
+          }
+          return [...prev, formattedNewVoucher];
+        });
+
+        setTableData({
+          id: response.data.id,
+          Reportno: "null",
+          Date: formatDate(newVoucher.Date),
+        });
 
         setAmount("");
         setRemarks("");
@@ -102,10 +139,11 @@ function CashVoucher() {
   const HandleClick = (data) => {
     if (data.Debit !== null) {
       setPartyName(data.PartyName);
-      setDate(data.Date);
+      setDate(formatDate2(data.Date));
       setAmount(data.Debit);
-      setRemarks(data.Remarks);
+      setRemarks(data.Remarks || "");
       setTableData({
+        id: data.id || "",
         Reportno: data.Reportno,
         Date: data.Date,
       });
@@ -114,38 +152,49 @@ function CashVoucher() {
 
   const HandleDelete = async () => {
     try {
-      if (tableData.Date && amount && partyName) {
-        const response = await axios.delete(
-          `http://localhost:3001/api/users/${formatDate2(tableData.Date)}/${amount}/${partyName}`
-        );
-        console.log("Delete successful:", response.data);
-
-        const updatedFilter = vouchersFilter.filter(
-          (voucher) =>
-            !(
-              voucher.Date === tableData.Date &&
-              voucher.Debit === amount &&
-              voucher.PartyName === partyName
-            )
-        );
-
-        setVouchersFilter(updatedFilter);
-        setVouchers(
-          partyName
-            ? updatedFilter.filter((item) => item.PartyName === partyName)
-            : updatedFilter
-        );
-
-        setAmount("");
-        setRemarks("");
-        setDate("");
-        setTableData({ Reportno: "", Date: "" });
-      } else {
-        alert("Please select a valid entry to delete.");
+      if (!tableData.id) {
+        alert("Please select a row to delete by clicking anywhere on it, or add a new entry first.");
+        return;
       }
+
+      console.log("Deleting ID:", tableData.id); // Debug log
+      // Use the correct DELETE endpoint based on index.js
+      const response = await axios.delete(`http://localhost:3001/api/users/${tableData.id}`);
+      console.log("DELETE Response:", response.data); // Debug log
+
+      // Optimistically update the UI by removing the deleted voucher
+      setVouchers((prev) => {
+        const updated = prev.filter((voucher) => voucher.id !== tableData.id);
+        console.log("Updated vouchers:", updated); // Debug log
+        return updated;
+      });
+      setVouchersFilter((prev) => {
+        const updated = prev.filter((voucher) => voucher.id !== tableData.id);
+        console.log("Updated vouchersFilter:", updated); // Debug log
+        return updated;
+      });
+
+      // Clear form fields and reset tableData
+      setAmount("");
+      setRemarks("");
+      setDate("");
+      setTableData({ id: "", Reportno: "", Date: "" });
+
+      // Fetch updated data from server to ensure consistency
+      await fetchData();
     } catch (error) {
-      console.error("Error deleting voucher:", error);
-      alert("Error deleting cash voucher");
+      let errorMessage = "Unknown error occurred";
+      if (error.response) {
+        errorMessage = `Server error: ${error.response.status} - ${error.response.data.message || JSON.stringify(error.response.data)}`;
+      } else if (error.request) {
+        errorMessage = "No response from server. Is the backend running on http://localhost:3001?";
+      } else {
+        errorMessage = `Request error: ${error.message}`;
+      }
+      console.error("Error deleting voucher:", errorMessage);
+      alert(`Error deleting cash voucher: ${errorMessage}`);
+      // Re-fetch data in case of error to restore UI consistency
+      await fetchData();
     }
   };
 
@@ -230,8 +279,8 @@ function CashVoucher() {
               <input
                 type="text"
                 className="box-border flex-1 w-full h-8 p-2 border border-gray-300 rounded-md"
-                pattern=".{3,}"
-                title="Remarks should be at least 3 characters long"
+                pattern=".{0,}"
+                title="Remarks can be empty or at least 3 characters long"
                 value={remarks}
                 onChange={(e) => setRemarks(e.target.value)}
               />
@@ -296,8 +345,8 @@ function CashVoucher() {
                 </thead>
                 <tbody>
                   {vouchers.length > 0 &&
-                    vouchers.map((entry, i) => (
-                      <tr key={i} onClick={() => HandleClick(entry)}>
+                    vouchers.map((entry) => (
+                      <tr key={entry.id} onClick={() => HandleClick(entry)}>
                         <td className="pr-4 text-sm transition-colors duration-300 border border-gray-300 whitespace-nowrap hover:bg-blue-500 hover:text-white">
                           {entry.Date}
                         </td>
@@ -311,7 +360,7 @@ function CashVoucher() {
                           {entry.Debit}
                         </td>
                         <td className="pr-4 text-sm transition-colors duration-300 border border-gray-300 whitespace-nowrap hover:bg-blue-500 hover:text-white">
-                          {entry.Remarks}
+                          {entry.Remarks || ""}
                         </td>
                       </tr>
                     ))}
