@@ -147,13 +147,13 @@ const createReportsAnalysisWindow = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#reports-analysis"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#reports-analysis"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Reports Analysis");
@@ -427,13 +427,13 @@ const ledgerreortPopup = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#ledger-report");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#ledger-report");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#ledger-report"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#ledger-report"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Ledger Report");
@@ -459,13 +459,13 @@ const cashvoucherPopup = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#cash-voucher");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#cash-voucher");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#cash-voucher"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#cash-voucher"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Cash Voucher");

@@ -91,7 +91,7 @@ const AccountLedger = ({
             Suvidha Marg, Corner Gali No.3, Aggarsain Colony, Sirsa-125055
           </Text>
           <Text style={styles.contact}>
-            86076-23157, 91833-23157, 94655-37157, 81685-26828
+            86076-23157, 98133-23157, 94655-37157, 81685-26828
           </Text>
         </View>
 

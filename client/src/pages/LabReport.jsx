@@ -55,7 +55,7 @@ function LabReport() {
                     alt="Mobile"
                     className="imagee"
                   />
-                  <p className="numtext">91833-23157</p>
+                  <p className="numtext">98133-23157</p>
                 </div>
                 <div className="icons">
                   <img

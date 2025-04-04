@@ -211,14 +211,13 @@ function CashVoucher() {
               <label className="mr-4 font-normal whitespace-nowrap min-w-[120px]">
                 Date:
               </label>
-              <input
-                type="date"
-                required
-                className="box-border flex-1 w-full h-8 p-2 border border-gray-300 rounded-md"
-                min={new Date().toISOString().split("T")[0]}
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+                <input
+                                         type="date"
+                                        required
+                                        className="box-border flex-1 w-full h-8 p-2 border border-gray-300 rounded-md"
+                                        value={date}
+                                        onChange={(e) => setDate(e.target.value)}
+                                    />
             </div>
           </fieldset>
           <fieldset className="box-border p-6 mb-8 border border-gray-300 rounded-lg">
