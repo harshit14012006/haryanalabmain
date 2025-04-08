@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Haryana Laboratory Letterpad</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .box-container {
+        border: 2px solid #800000;
+        padding: 2px;
+        border-radius: 12px;
+        width: 1198px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #8b3f3b;
+        color: white;
+        padding: 10px 20px;
+        height: 80px;
+        border-radius: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid white;
+        height: 64px;
+      }
+
+      .logo img {
+        width: 70px;
+        height: 50px;
+      }
+
+      .lab-name {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .address {
+        font-size: 20px;
+      }
+
+      #downloadBtn {
+        margin: 20px 0;
+        padding: 10px 20px;
+        background-color: #8b3f3b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #downloadBtn:hover {
+        background-color: #a14a46;
+      }
+    </style>
+
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Download Button -->
+    <button id="downloadBtn" onclick="downloadLetterpadPDF()">Download as PDF</button>
+
+    <!-- Letterpad Main Content -->
+    <div id="MainContent" class="box-container">
+      <div class="header">
+        <div class="logo">
+          <img src="../src/images/lablogo.png" alt="Logo" />
+        </div>
+        <div class="lab-name">
+          HARYANA LABORATORY <br />
+          <span class="address">
+            Suvidha Marg, Corner Gali No. 3, Aggarsain Colony, SIRSA-125055
+          </span>
+        </div>
+      </div>
+
+      <!-- Optional Body Content (empty for now) -->
+      <div style="padding: 20px; font-size: 18px;">
+        <!-- You can insert letter content here if needed -->
+      </div>
+    </div>
+
+    <!-- PDF Generation Script -->
+    <script>
+      function downloadLetterpadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF("p", "mm", "a4");
+
+        const button = document.getElementById("downloadBtn");
+        button.style.display = "none"; // Hide button before capture
+
+        html2canvas(document.getElementById("MainContent")).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const imgWidth = 180; // smaller for margin
+          const pageWidth = 210;
+          const pageHeight = 297;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          const xPosition = (pageWidth - imgWidth) / 2;
+          const yPosition = (pageHeight - imgHeight) / 2;
+
+          doc.addImage(imgData, "PNG", xPosition, yPosition, imgWidth, imgHeight);
+          doc.save("Haryana_Laboratory_Letterpad.pdf");
+
+          button.style.display = "block"; // Show again after save
+        });
+      }
+    </script>
+  </body>
+</html>

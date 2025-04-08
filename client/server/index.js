@@ -38,6 +38,7 @@ const {
   deleteCity,
   updateCity,
 } = require("./controller/MasterCity");
+const { getAllLetterpads, createLetterpad } = require("./controller/letterpadController");
 
 //Multer Work
 const { saveImage } = require("./controller/imageController");
@@ -101,6 +102,10 @@ app.get("/api/mastercity", getCity);
 app.post("/api/mastercity", setCity);
 app.put("/api/mastercity", updateCity);
 app.delete("/api/mastercity/:id", deleteCity);
+
+// LetterPads Routes
+// app.get("/api/letterpads", getAllLetterpads);
+app.post("/api/letterpad", createLetterpad);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

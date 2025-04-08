@@ -44,8 +44,8 @@ const CreateReport = () => {
   });
 
   const images = [
-    { id: 1, src: call1, alt: "Signature 1", value: "signature1" },
-    { id: 2, src: call2, alt: "Signature 2", value: "signature2" },
+    { id: 1, src: call1, alt: "Image 1", value: "signature1" },
+    { id: 2, src: call2, alt: "Image 2", value: "signature2" },
   ];
 
   const [selectedImage, setSelectedImage] = useState(null);

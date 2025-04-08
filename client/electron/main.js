@@ -147,13 +147,13 @@ const createReportsAnalysisWindow = () => {
   });
 
   // Load the Reports Analysis page
-  // reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
+  reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
 
-  reportsAnalysisWindow.loadURL(
-    "file://" +
-      path.join(__dirname, "..", "build", "index.html") +
-      "#reports-analysis"
-  );
+  // reportsAnalysisWindow.loadURL(
+  //   "file://" +
+  //     path.join(__dirname, "..", "build", "index.html") +
+  //     "#reports-analysis"
+  // );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Reports Analysis");
@@ -233,8 +233,8 @@ ipcMain.on("open-Party-report", (event, reportData) => {
   });
 });
 
-ipcMain.on("open-letterpad", (event, reportData) => {
-  console.log(reportData);
+ipcMain.on("open-letterpad", (event, letterpadData) => {
+  console.log(letterpadData);
   const labReportWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -267,7 +267,7 @@ ipcMain.on("open-letterpad", (event, reportData) => {
 
   // Wait for the window to finish loading before sending the data
   labReportWindow.webContents.on("did-finish-load", () => {
-    labReportWindow.webContents.send("render-letterpad", reportData);
+    labReportWindow.webContents.send("render-letterpad", letterpadData);
   });
 });
 
@@ -654,13 +654,13 @@ const createGenerateLetterpadPopup = () => {
   });
 
   // Development: Use localhost
-  // letterpadWindow.loadURL("http://localhost:3000/#generate-letterpad");
+  letterpadWindow.loadURL("http://localhost:3000/#generate-letterpad");
 
-  letterpadWindow.loadURL(
-    "file://" +
-      path.join(__dirname, "..", "build", "index.html") +
-      "#/generate-letterpad"
-  );
+  // letterpadWindow.loadURL(
+  //   "file://" +
+  //     path.join(__dirname, "..", "build", "index.html") +
+  //     "#/generate-letterpad"
+  // );
 
   letterpadWindow.webContents.on("did-finish-load", () => {
     letterpadWindow.setTitle("Generate Letterpad");
