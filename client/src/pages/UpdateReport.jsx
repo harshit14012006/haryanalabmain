@@ -3,6 +3,7 @@ import axios from "axios";
 import call1 from "../images/unclesign.png";
 import call2 from "../images/sweshguptasign.png";
 const { ipcRenderer } = window.require("electron");
+
 const ReportAnalysis = () => {
   const [Data, getData] = React.useState({});
   const [time, getTime] = React.useState("");
@@ -57,6 +58,7 @@ const ReportAnalysis = () => {
     const minutes = String(now.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   };
+
   React.useEffect(() => {
     getTime(getCurrentTime());
     // Update time every minute
@@ -82,10 +84,11 @@ const ReportAnalysis = () => {
 
     return `${hours}:${minutes}`;
   };
+
   const convertTimeTo12Hour = (time12h) => {
     console.log(time12h);
     const [time, modifier] = time12h.split(" ");
-    const maintime = time.split(0, 5);
+    const maintime = time.slice(0, 5);
 
     return `${maintime} ${modifier}`;
   };
@@ -98,7 +101,6 @@ const ReportAnalysis = () => {
       axios
         .get(`http://localhost:3001/api/analysis/${Value}`)
         .then((response) => {
-          // console.log(response.data);
           getData({});
           setCity(null);
           setCustomersbyname([]);
@@ -116,7 +118,6 @@ const ReportAnalysis = () => {
             axios
               .get("http://localhost:3001/api/Item")
               .then((response) => {
-                // console.log(response.data.id);
                 setSampleName(response.data.id);
               })
               .catch((error) => {
@@ -139,8 +140,6 @@ const ReportAnalysis = () => {
                 ? convertTimeTo24Hour(Data.Time)
                 : convertTimeTo12Hour(Data.Time)
             );
-            // console.log(Data.Dated);
-            // console.log(Data.Billeddate);
             getData(Data);
             setSelectedImage(
               images.find(
@@ -163,6 +162,7 @@ const ReportAnalysis = () => {
     const [year, month, day] = dateString.split("-");
     return `${day}-${month}-${year}`;
   }
+
   function formatDateReverse(dateString) {
     if (!dateString) return ""; // Handle empty or null dates
 
@@ -189,6 +189,7 @@ const ReportAnalysis = () => {
     const minutes = String(new Date().getMinutes()).padStart(2, "0");
     e.target.value ? setTime(`${hours}:${minutes}`) : setTime(null);
   };
+
   const HandleUpdate = (e) => {
     e.preventDefault();
     try {
@@ -200,25 +201,18 @@ const ReportAnalysis = () => {
             Data[key] === "" ||
             Data[key] === "NA"
           ) {
-            // Assign default value from defaultValues or any other value
             Data[key] = "NA";
           }
         }
-        // if (Data.time !== "NA") {
-        //   if (FFaTime) {
-        //     Data.time = FFaTime.toString();
-        //   }
-        // }
         Data.Dated = formatDate(Data.Dated);
         Data.Billeddate = formatDate(Data.Billeddate);
         console.table(Data);
 
         if (Repno !== 0) {
           axios
-            .put(`http://localhost:3001/api/analysis/${Repno} `, Data)
+            .put(`http://localhost:3001/api/analysis/${Repno}`, Data)
             .then((response) => {
               console.log(response.data);
-
               setCustomersbyname([]);
               setSampleName([]);
               setCity(null);
@@ -226,7 +220,6 @@ const ReportAnalysis = () => {
               setIsOpen(false);
               setTime(null);
               setRepno(0);
-
               ipcRenderer.send("open-lab-report", Data);
               getData({});
             })
@@ -250,7 +243,7 @@ const ReportAnalysis = () => {
         <form>
           <fieldset className="p-2 border border-gray-300 rounded">
             <legend className="text-sm">Analysis</legend>
-            <div className="border border-gray-300 ">
+            <div className="border border-gray-300">
               <div className="mt-1 text-center">
                 <label htmlFor="reportno" className="block mb-2 text-sm">
                   Report No.
@@ -279,7 +272,7 @@ const ReportAnalysis = () => {
                 </div>
               </div>
 
-              <div className="flex ">
+              <div className="flex">
                 {/* First container with labels and inputs in rows */}
                 <div className="w-1/2 p-4">
                   <div className="flex flex-col gap-4">
@@ -297,17 +290,15 @@ const ReportAnalysis = () => {
                       >
                         <option value="">Select a sample</option>
                         {sampleName &&
-                          sampleName.map((name) => {
-                            return (
-                              <option key={name.ID} value={name.ItemName}>
-                                {name.ItemName}
-                              </option>
-                            );
-                          })}
+                          sampleName.map((name) => (
+                            <option key={name.ID} value={name.ItemName}>
+                              {name.ItemName}
+                            </option>
+                          ))}
                       </select>
                     </div>
                     <div className="flex items-center">
-                      <label htmlFor="input2" className="w-1/3 text-sm">
+                      <label htmlFor="dated" className="w-1/3 text-sm">
                         Dated
                       </label>
                       <input
@@ -316,13 +307,13 @@ const ReportAnalysis = () => {
                         name="Dated"
                         required
                         className="flex-grow h-5 px-2 py-1 border"
-                        placeholder="Input 2"
+                        placeholder="Input 2Input 2"
                         value={Data.Dated || ""}
                         onChange={handleChange}
                       />
                     </div>
                     <div className="flex items-center">
-                      <label htmlFor="" className="w-1/3 text-sm">
+                      <label htmlFor="from" className="w-1/3 text-sm">
                         From Sh/M/s
                       </label>
                       <select
@@ -337,13 +328,11 @@ const ReportAnalysis = () => {
                       >
                         <option value="">Select an option</option>
                         {customersbyname &&
-                          customersbyname.map((name, index) => {
-                            return (
-                              <option key={index} value={name.Name}>
-                                {name.Name}
-                              </option>
-                            );
-                          })}
+                          customersbyname.map((name, index) => (
+                            <option key={index} value={name.Name}>
+                              {name.Name}
+                            </option>
+                          ))}
                       </select>
                     </div>
                   </div>
@@ -392,7 +381,7 @@ const ReportAnalysis = () => {
                       </label>
                       <input
                         type="text"
-                        id="input6"
+                        id="station"
                         disabled
                         className="flex-grow h-5 px-2 py-1 border"
                         value={!city ? Data.Station || "" : city}
@@ -407,7 +396,7 @@ const ReportAnalysis = () => {
                 <div className="flex items-center">
                   <input
                     type="text"
-                    id="editableNumber"
+                    id="anotherName"
                     className="h-5 px-2 py-1 mr-4 border w-28"
                     value={Data.AnotherName || ""}
                     name="AnotherName"
@@ -415,7 +404,7 @@ const ReportAnalysis = () => {
                   />
                   <input
                     type="text"
-                    id="editableNumber"
+                    id="anotherValue"
                     className="h-5 px-2 py-1 border w-28"
                     value={Data.AnotherValue || ""}
                     name="AnotherValue"
@@ -469,7 +458,6 @@ const ReportAnalysis = () => {
                       handleChange(e);
                       handleFfaChange(e);
                     }}
-                    //
                   />
                   <span className="ml-1">%</span>
                 </div>
@@ -493,8 +481,7 @@ const ReportAnalysis = () => {
 
             <div className="h-16 p-2 mt-1 border border-gray-300">
               <div className="flex flex-wrap -mx-4">
-                {/* Code/Sample No. */}
-                <div className="w-1/5 px-4 ">
+                <div className="w-1/5 px-4">
                   <label
                     htmlFor="sampleNo"
                     className="block mb-1 text-sm text-center text-gray-700"
@@ -510,8 +497,6 @@ const ReportAnalysis = () => {
                     onChange={handleChange}
                   />
                 </div>
-
-                {/* Date */}
                 <div className="w-1/5 px-4 mb-4">
                   <label
                     htmlFor="date"
@@ -528,8 +513,6 @@ const ReportAnalysis = () => {
                     onChange={handleChange}
                   />
                 </div>
-
-                {/* Vehicle No. */}
                 <div className="w-1/5 px-4 mb-4">
                   <label
                     htmlFor="vehicleNo"
@@ -546,8 +529,6 @@ const ReportAnalysis = () => {
                     onChange={handleChange}
                   />
                 </div>
-
-                {/* Bags */}
                 <div className="w-1/5 px-4 mb-4">
                   <label
                     htmlFor="bags"
@@ -564,8 +545,6 @@ const ReportAnalysis = () => {
                     onChange={handleChange}
                   />
                 </div>
-
-                {/* Weight(Ql) */}
                 <div className="w-1/5 px-4 mb-4">
                   <label
                     htmlFor="weight"
@@ -585,10 +564,9 @@ const ReportAnalysis = () => {
               </div>
             </div>
             <div className="grid w-3/4 grid-cols-2 gap-4 p-4 mt-2">
-              {/* Row 1, Column 1 */}
               <div>
                 <select
-                  id="sealed-unsealed"
+                  id="category"
                   className="flex-grow h-5 px-2 border"
                   value={Data.Category || "sealed"}
                   name="Category"
@@ -601,31 +579,26 @@ const ReportAnalysis = () => {
                   <option value="Broker">Broker</option>
                 </select>
               </div>
-
-              {/* Row 1, Column 2 */}
               <div>
                 <input
                   type="text"
-                  id="remarks1"
+                  id="sealEngraved"
                   className="w-full h-5 px-2 py-1 border"
                   value={Data.SealEngraved || ""}
                   name="SealEngraved"
                   onChange={handleChange}
                 />
               </div>
-
-              {/* Row 2, Column 1 */}
               <div>
                 <span>Remarks</span>
               </div>
-
-              {/* Row 2, Column 2 */}
               <div>
                 <input
                   type="text"
-                  id="remarks2"
+                  id="remarks"
                   className="w-full h-5 px-2 py-1 border"
                   value={Data.Remarks}
+                  name="Remarks"
                   onChange={handleChange}
                 />
               </div>
@@ -633,7 +606,6 @@ const ReportAnalysis = () => {
             <div className="text-right">
               <span className="block mr-6 text-sm">Signature</span>
               <div className="flex items-center justify-end gap-2 my-3">
-                {/* Selected Image */}
                 <div className="absolute left-[60rem] top-[28.5rem]">
                   {selectedImage && (
                     <img
@@ -643,7 +615,6 @@ const ReportAnalysis = () => {
                     />
                   )}
                 </div>
-
                 <div className="relative">
                   <button
                     type="button"
@@ -652,7 +623,6 @@ const ReportAnalysis = () => {
                   >
                     Select Image
                   </button>
-
                   {isOpen && (
                     <div className="absolute left-0 z-10 w-32 mb-2 overflow-hidden bg-white border border-gray-200 rounded-lg shadow-md bottom-full">
                       {images.map((image) => (
@@ -675,8 +645,6 @@ const ReportAnalysis = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  name="Remarks"
-                  value={Data.Remarks || ""}
                   className="px-2 py-1 bg-gray-400 rounded"
                   onClick={HandleUpdate}
                 >

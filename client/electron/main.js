@@ -363,13 +363,13 @@ const updateReportsAnalysisWindow = () => {
   });
 
   // Load the Reports Analysis page
-  // reportsAnalysisWindow.loadURL("http://localhost:3000/#update-analysis");
+  reportsAnalysisWindow.loadURL("http://localhost:3000/#update-analysis");
 
-  reportsAnalysisWindow.loadURL(
-    "file://" +
-      path.join(__dirname, "..", "build", "index.html") +
-      "#update-analysis"
-  );
+  // reportsAnalysisWindow.loadURL(
+  //   "file://" +
+  //     path.join(__dirname, "..", "build", "index.html") +
+  //     "#update-analysis"
+  // );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Single Report Update");
@@ -555,13 +555,13 @@ const recordreportPopup = () => {
   });
 
   // Load the Reports Analysis page
-  // reportsAnalysisWindow.loadURL("http://localhost:3000/#record-report");
+  reportsAnalysisWindow.loadURL("http://localhost:3000/#record-report");
 
-  reportsAnalysisWindow.loadURL(
-    "file://" +
-      path.join(__dirname, "..", "build", "index.html") +
-      "#record-report"
-  );
+  // reportsAnalysisWindow.loadURL(
+  //   "file://" +
+  //     path.join(__dirname, "..", "build", "index.html") +
+  //     "#record-report"
+  // );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Record Report");
