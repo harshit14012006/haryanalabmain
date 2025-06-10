@@ -6,7 +6,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: process.env.DATABASE_USER || "root", // Fallback to "root"
     password: process.env.DATABASE_PASSWORD || "harshit14012006", // Fallback to an empty password
-    database: "haryanalabbackend",
+    database: "sys",
 });
 
 // Connect to MySQL database

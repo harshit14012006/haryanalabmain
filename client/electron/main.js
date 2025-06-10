@@ -147,13 +147,13 @@ const createReportsAnalysisWindow = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#reports-analysis");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#reports-analysis"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#reports-analysis"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Reports Analysis");
@@ -363,13 +363,13 @@ const updateReportsAnalysisWindow = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#update-analysis");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#update-analysis");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#update-analysis"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#update-analysis"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Single Report Update");
@@ -381,8 +381,8 @@ const updateReportsAnalysisWindow = () => {
 
 const ledgerentryPopup = () => {
   const reportsAnalysisWindow = new BrowserWindow({
-    width: 950,
-    height: 573,
+    width: 1050,
+    height: 600,
     parent: mainWindow,
     modal: true,
     webPreferences: {
@@ -555,13 +555,13 @@ const recordreportPopup = () => {
   });
 
   // Load the Reports Analysis page
-  reportsAnalysisWindow.loadURL("http://localhost:3000/#record-report");
+  // reportsAnalysisWindow.loadURL("http://localhost:3000/#record-report");
 
-  // reportsAnalysisWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#record-report"
-  // );
+  reportsAnalysisWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#record-report"
+  );
 
   reportsAnalysisWindow.webContents.on("did-finish-load", () => {
     reportsAnalysisWindow.setTitle("Record Report");
@@ -654,13 +654,13 @@ const createGenerateLetterpadPopup = () => {
   });
 
   // Development: Use localhost
-  letterpadWindow.loadURL("http://localhost:3000/#generate-letterpad");
+  // letterpadWindow.loadURL("http://localhost:3000/#generate-letterpad");
 
-  // letterpadWindow.loadURL(
-  //   "file://" +
-  //     path.join(__dirname, "..", "build", "index.html") +
-  //     "#/generate-letterpad"
-  // );
+  letterpadWindow.loadURL(
+    "file://" +
+      path.join(__dirname, "..", "build", "index.html") +
+      "#/generate-letterpad"
+  );
 
   letterpadWindow.webContents.on("did-finish-load", () => {
     letterpadWindow.setTitle("Generate Letterpad");

@@ -166,6 +166,7 @@
         font-family: Arial, sans-serif; /* Change the font family */
         font-size: 16px; /* Change the font size */
         color: #812929; /* Change the font color */
+        width: 500px;
       }
       .stateset {
         position: absolute;
@@ -183,116 +184,27 @@
         font-size: 16px; /* Change the font size */
         color: #812929; /* Change the font color */
       }
+      .clone-content {
+        margin-bottom: 3mm; /* Adjust padding as needed */
+        page-break-inside: avoid; /* Prevents splitting within the element */
+        overflow: hidden; /* Hides overflow */
+        border: 1px solid #8b3f3b;
+        padding: 3px;
+        border-radius: 11px;
+        margin-right: 1.9rem;
+        margin-left: -6px;
+      }
     </style>
   </head>
 
   <body>
     <button id="downloadBtn">Download as Image</button>
-    <div id="MainContent">
-      <div class="header" id="content">
-        <div class="logo">
-          <img src="../src/images/lablogo.png" alt="Logo" />
-        </div>
-        <div class="lab-name">
-          HARYANA LABORATORY <br />
-          <span class="address"
-            >Suvidha Marg, Corner Gali No. 3, Aggarsain Colony,
-            SIRSA-125055</span
-          >
-        </div>
-        <div class="contact">
-          <div><img src="whtsapp.png" alt="WhatsApp" />86076-23157</div>
-          <div><img src="call.jpg" alt="Phone" />98133-23157</div>
-          <div><img src="call.jpg" alt="Phone" />94655-37157</div>
-          <div><img src="call.jpg" alt="Phone" />81685-26828</div>
-        </div>
-      </div>
-      <br />
-      <div class="reportrecord">
-        <div class="reportrecordtext">
-          (Record Of Your Reports) <br />
-          <span class="partyname"
-            >Party Name Sh/M/S
-            <span
-              >.................................................................................................................................................................................</span
-            >
-            <span class="partynameByuser" id="partynameByuser"
-              ><input type="text" class="inpfld" disabled value="Hrllo"
-            /></span>
-            <span class="stateset" id="stateset"
-              ><input type="text" disabled class="inpfld1" value="Sirsa"
-            /></span>
-          </span>
-        </div>
-      </div>
-
-      <!-- First Row of Columns -->
-      <div class="report-columns">
-        <div class="report-column">Date Of Testing</div>
-        <div class="report-column">Report No.</div>
-        <div class="report-column2">Sealed By</div>
-        <div class="report-column">Sample Code</div>
-        <div class="report-column">Sample Date</div>
-        <div class="report-column">Vehicle No.</div>
-        <div class="report-column">Bags</div>
-        <div class="report-column">Weight</div>
-        <div class="report-columnOMF">Oil%/Moist%/FFA%/Others</div>
-      </div>
-
-      <!-- Generate rows dynamically -->
-      <div id="reportRows"></div>
-    </div>
 
     <!-- Script Tag Called -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-      // Sample data for the rows
-
-      function generateRows(data) {
-        const reportRows = document.getElementById("reportRows");
-        console.log(data);
-        data.forEach((row) => {
-          const rowDiv = document.createElement("div");
-          rowDiv.className = "report-columns";
-
-          rowDiv.innerHTML = `
-            <div class="report-column">${row.Dated}</div>
-            <div class="report-column">${row.Reportno}</div>
-            <div class="report-column2">${row.SealEngraved}</div>
-            <div class="report-column">${row.Code}</div>
-            <div class="report-column">${row.Date}</div>
-            <div class="report-column">${row.Vechileno}</div>
-            <div class="report-column">${row.Bags}</div>
-            <div class="report-column">${row.Weight}</div>
-            <div class="report-columnOMF">${row.Oil} / ${row.Moisture} / ${row.FFA} / ${row.AnotherValue}</div>
-          `;
-
-          reportRows.appendChild(rowDiv);
-        });
-        for (i = 0; i < 14 - data.length; i++) {
-          const rowDiv = document.createElement("div");
-          rowDiv.className = "report-columns";
-          console.log("Generate Loop Working", data.length);
-          rowDiv.innerHTML = `
-            <div class="report-column">_</div>
-            <div class="report-column">_</div>
-            <div class="report-column2">_</div>
-            <div class="report-column">_</div>
-            <div class="report-column">_</div>
-            <div class="report-column">_</div>
-            <div class="report-column">_</div>
-            <div class="report-column">_</div>
-            <div class="report-columnOMF">_</div>
-          `;
-
-          reportRows.appendChild(rowDiv);
-        }
-      }
-
-      // Call the function to populate rows
-
       const { jsPDF } = window.jspdf;
       let pdfContainer;
       let cloneContainer;
@@ -300,20 +212,12 @@
       const addCSS = () => {
         const style = document.createElement("style");
         style.textContent = `
-    .clone-content {
-      margin-bottom: 8mm; /* Adjust padding as needed */
-      page-break-inside: avoid; /* Prevents splitting within the element */
-      overflow: hidden; /* Hides overflow */
-    }
-      #MainContent{
-      margin-bottom: 10mm; /* Adjust padding as needed */
-      border: 1px solid #8b3f3b;
-    padding: 3px;
-    border-radius: 11px;
-    margin-right: 1.9rem;
-    margin-left: -6px;
-      }
-  `;
+          .clone-content {
+            margin-bottom: 3mm; /* Adjust padding as needed */
+            page-break-inside: avoid; /* Prevents splitting within the element */
+            overflow: hidden; /* Hides overflow */
+          }
+        `;
         document.head.appendChild(style);
       };
 
@@ -329,8 +233,8 @@
           const options = {
             margin: [7, 3, 0, 0], // [top, right, bottom, left] in mm
             filename: `printrecordreport${Data.PartyName}`,
-            image: { type: "png", quality: 0.98 },
-            html2canvas: { scale: 2 },
+            image: { type: "png", quality: 0.60 },
+            html2canvas: { scale: 1 },
             jsPDF: { unit: "mm", format: "letter", orientation: "landscape" },
           };
 
@@ -343,29 +247,63 @@
             });
         });
 
-      function createPageWithJsonData(dataChunk, City, PartyName) {
-        // Clone MainContent section
-        const mainContent = document.getElementById("MainContent");
-        const newComponent = mainContent.cloneNode(true);
-        newComponent.removeAttribute("id");
-
-        // Add a class to cloned content for styling
+      function createPageWithJsonData(dataChunk, City, PartyName, i) {
+        // Create new component for clone-content
+        const newComponent = document.createElement("div");
         newComponent.classList.add("clone-content");
 
-        // Reset `reportRows` in the cloned component
-        const reportRows = newComponent.querySelector("#reportRows");
-        reportRows.innerHTML = ""; // Clear previous data in the clone
+        // Add header, reportrecord, and report-columns structure
+        newComponent.innerHTML = `
+          <div class="header">
+            <div class="logo">
+              <img src="../src/images/lablogo.png" alt="Logo" />
+            </div>
+            <div class="lab-name">
+              HARYANA LABORATORY <br />
+              <span class="address">Suvidha Marg, Corner Gali No. 3, Aggarsain Colony, SIRSA-125055</span>
+            </div>
+            <div class="contact">
+              <div><img src="whtsapp.png" alt="WhatsApp" />86076-23157</div>
+              <div><img src="call.jpg" alt="Phone" />98133-23157</div>
+              <div><img src="call.jpg" alt="Phone" />94655-37157</div>
+              <div><img src="call.jpg" alt="Phone" />81685-26828</div>
+            </div>
+          </div>
+          <br />
+          <div class="reportrecord">
+            <div class="reportrecordtext">
+              (Record Of Your Reports) <br />
+              <span class="partyname">
+                Party Name Sh/M/S
+                <span>.................................................................................................................................................................................</span>
+                <span class="partynameByuser">
+                  <input type="text" class="inpfld" disabled value="${PartyName}"/>
+                </span>
+                <span class="stateset">
+                  <input type="text" disabled class="inpfld1" value="${City}"/>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="report-columns">
+            <div class="report-column">Date Of Testing</div>
+            <div class="report-column">Report No.</div>
+            <div class="report-column2">Sealed By</div>
+            <div class="report-column">Sample Code</div>
+            <div class="report-column">Sample Date</div>
+            <div class="report-column">Vehicle No.</div>
+            <div class="report-column">Bags</div>
+            <div class="report-column">Weight</div>
+            <div class="report-columnOMF">Oil%/Moist%/FFA%/Others</div>
+          </div>
+          <div id="reportRows"></div>
+        `;
 
-        // Add input fields in the cloned component
-        const inpfld = newComponent.querySelector(".inpfld");
-        const inpfld1 = newComponent.querySelector(".inpfld1");
-        // document.querySelector(".inpfld1").value = "";
-        // document.querySelector(".inpfld").value = "";
-        if (inpfld) inpfld.value = PartyName;
-        if (inpfld1) inpfld1.value = City;
+        // Append rows to reportRows in the cloned component
+        const reportRows = newComponent.querySelector("#reportRows");
 
         // Generate rows with the data chunk
-
+        // Generate rows with the data chunk
         dataChunk.forEach((row) => {
           const rowDiv = document.createElement("div");
           rowDiv.className = "report-columns";
@@ -380,11 +318,13 @@
             <div class="report-column">${row.Bags}</div>
             <div class="report-column">${row.Weight}</div>
             <div class="report-columnOMF">${row.Oil} / ${row.Moisture} / ${row.FFA} / ${row.AnotherValue}</div>
-        `;
+          `;
 
           reportRows.appendChild(rowDiv);
         });
-        for (i = 0; i < 14 - (dataChunk.length - 1); i++) {
+
+        // Add empty rows to fill up to 14 rows
+        for (let j = 0; j < 13 - dataChunk.length; j++) {
           const rowDiv = document.createElement("div");
           rowDiv.className = "report-columns";
           rowDiv.innerHTML = `
@@ -402,8 +342,7 @@
           reportRows.appendChild(rowDiv);
         }
 
-        // Remove ID to avoid duplicates before appending
-        newComponent.id = "";
+        // Append the new component to cloneContainer
         document.body.appendChild(newComponent);
         cloneContainer.appendChild(newComponent);
       }
@@ -412,9 +351,8 @@
         window.ipcRenderer.on("render-Party-report", (event, reportData) => {
           Data = reportData;
           console.log(Data.Records);
-          document.querySelector(".inpfld1").value = Data.City;
-          document.querySelector(".inpfld").value = Data.PartyName;
 
+          // Create pdfContainer and cloneContainer
           pdfContainer = document.createElement("div");
           pdfContainer.id = "pdfContainer";
           document.body.appendChild(pdfContainer);
@@ -423,27 +361,13 @@
           cloneContainer.id = "cloneContainer";
           pdfContainer.appendChild(cloneContainer);
 
-          // First page setup with main content
-          const mainContent = document.getElementById("MainContent");
-          pdfContainer.appendChild(mainContent);
           // Split data into chunks and generate pages
-          const itemsPerPage = 15;
+          const itemsPerPage = 14;
           for (let i = 0; i < Data.Records.length; i += itemsPerPage) {
             const dataChunk = Data.Records.slice(i, i + itemsPerPage);
-            // Use initial MainContent if it's the first page
-            console.log("Loop ........");
-            if (i === 0) {
-              generateRows(dataChunk);
-            } else {
-              console.log("Else Working");
-              // Clone for additional data chunks
-              console.table(dataChunk);
-
-              createPageWithJsonData(dataChunk, Data.City, Data.PartyName);
-            }
+            console.log("Loop ........" + JSON.stringify(dataChunk));
+            createPageWithJsonData(dataChunk, Data.City, Data.PartyName, i);
           }
-
-          // generateRows(Data.Records);
         });
       });
     </script>

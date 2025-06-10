@@ -36,7 +36,7 @@ function LedgerEntry() {
         Date: formatDate(item.Date),
       }));
       setLedgerEntriesFilter(formattedReports);
-      
+
       // If a party is selected, filter the entries for that party; otherwise, show all
       if (selectedParty) {
         const filterledger = formattedReports.filter(
@@ -83,7 +83,7 @@ function LedgerEntry() {
 
   const handlePartyChange = (event) => {
     const selectedPartyName = event?.target?.value;
-    
+
     if (!selectedPartyName) {
       setSelectedParty(formData.PartyName);
     } else {
@@ -124,58 +124,64 @@ function LedgerEntry() {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleAddNew = async () => {
-    if (
-      !selectedParty ||
-      !formData.Date ||
-      !formData.Reportno ||
-      !formData.Credit
-    ) {
-      console.log(formData);
-      return;
-    }
+const handleAddNew = async () => {
+  if (
+    !selectedParty ||
+    !formData.Date ||
+    !formData.Reportno ||
+    !formData.Credit
+  ) {
+    console.log(formData);
+    return;
+  }
 
-    try {
-      formData.PartyName = selectedParty;
-      const newEntry = {
-        Date: formatDate(formData.Date),
-        Reportno: formData.Reportno,
-        PartyName: selectedParty,
-        Credit: formData.Credit,
-        Debit: null,
-        Remarks: formData.Remarks,
-      };
+  try {
+    formData.PartyName = selectedParty;
 
-      console.log(formData);
-      const response = await axios.post("http://localhost:3001/api/users/Credit", formData);
-      console.log(response);
+    const newEntry = {
+      Date: formatDate(formData.Date),
+      Reportno: Number(formData.Reportno),
+      PartyName: selectedParty,
+      Credit: formData.Credit,
+      Debit: null,
+      Remarks: formData.Remarks,
+    };
 
-      const newEntryWithId = {
-        id: response.data.id,
-        ...newEntry,
-      };
+    const response = await axios.post("http://localhost:3001/api/users/Credit", formData);
 
-      setLedgerEntriesFilter(prev => [...prev, newEntryWithId]);
-      setLedgerEntries(prev => {
-        if (selectedParty) {
-          return [...prev.filter(item => item.PartyName === selectedParty), newEntryWithId];
-        }
-        return [...prev, newEntryWithId];
-      });
+    const newEntryWithId = {
+      id: response.data.id,
+      ...newEntry,
+    };
 
-      setFormData({
-        id: "",
-        Date: "",
-        Reportno: "",
-        PartyName: selectedParty,
-        Credit: "",
-        Remarks: "",
-      });
-    } catch (error) {
-      console.error("Error adding user:", error);
-      alert("Error adding new entry");
-    }
-  };
+    setLedgerEntriesFilter((prev) => [...prev, newEntryWithId]);
+    setLedgerEntries((prev) => {
+      if (selectedParty) {
+        return [...prev.filter((item) => item.PartyName === selectedParty), newEntryWithId];
+      }
+      return [...prev, newEntryWithId];
+    });
+
+    // ✅ Remove report number from dropdown
+    setRepNo((prevRepNos) =>
+      prevRepNos.filter((rep) => rep.Reportno !== Number(formData.Reportno))
+    );
+
+    // ✅ Reset form
+    setFormData({
+      id: "",
+      Date: "",
+      Reportno: "",
+      PartyName: selectedParty,
+      Credit: "",
+      Remarks: "",
+    });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    alert("Error adding new entry");
+  }
+};
+
 
   function formatDate2(dateString) {
     const [day, month, year] = dateString.split("-");
